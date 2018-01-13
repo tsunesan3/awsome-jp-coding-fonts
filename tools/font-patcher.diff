@@ -1,0 +1,24 @@
+diff --git a/font-patcher b/font-patcher
+index d14729d3..36519753 100755
+--- a/font-patcher
++++ b/font-patcher
+@@ -196,12 +196,17 @@ make_sure_path_exists(args.outputdir)
+ 
+ # comply with SIL Open Font License (OFL)
+ reservedFontNameReplacements = {
++    ' '       : '',
++    'NerdFontC': '',
++    'NerdFont': '',
++    'Complete': '',
++    '-book'   : '',
++    'MyricaM' : 'Myrica',
++    'onospace' : '',
+     'source'  : 'sauce',
+     'Source'  : 'Sauce',
+     'hermit'  : 'hurmit',
+     'Hermit'  : 'Hurmit',
+-    'fira'    : 'fura',
+-    'Fira'    : 'Fura',
+     'hack'    : 'knack',
+     'Hack'    : 'Knack',
+     'hasklig' : 'hasklug',

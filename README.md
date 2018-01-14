@@ -1,6 +1,12 @@
 # プログラミング用フォント
 
 日本語プログラミング用フォントを集めてVIM用のPowerLineとNERDのフォントを当てました。
+紹介するフォントは下記の条件に合うものです。
+
+1. 固定幅フォント
+2. ゼロと大文字もオー(0O)、数字の1と大文字のアイと小文字のエル(1Il)の区別がつくこと
+3. 日本語を含んでいること
+
 PowerLine、NERDのパッチを当てるとフォント名が"for powerline"や"Nerd font"等が
 付加されますが、空白を含むと設定がややこしくなるので、オリジナルのままになる様に
 しています。また、固定幅フォントだけとして、プロポーショナル等はあっても
@@ -15,6 +21,9 @@ PowerLine、NERDのパッチを当てるとフォント名が"for powerline"や"
 |MyricaM|inconsolata|Mgen+(M+フォント、源ノ角ゴシック)|1:2|第四まで|OFL|
 |Source Han Code JP|Source Code Pro|源ノ角ゴシック|2:3|第四まで|OFL|
 |Cica|Ubuntu Mono|Rounded Mgen+ (M+フォント、源ノ角ゴシックの丸ゴ)|1:2|第四まで|OFL|
+|CodeM Font|Source Code Pro|Migu 1M(M+フォント、IPAゴシック)|不定|第二の一部まで|OFL|
+|Migu 1M|M+フォント|Migu 1M(M+フォント、IPAゴシック)|1:2|第四まで|M+,IPA|
+|VLゴシック|M+フォント|M+フォント、さざなみ|1:2|第二の一部まで|M+,BSD|
 
 ## 共通の作成環境
 

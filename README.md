@@ -20,6 +20,7 @@ PowerLine、NERDのパッチを当てるとフォント名が"for powerline"や"
 |Myrica|inconsolata|源真ゴシック(源ノ角ゴシック)|1:2|第四まで|OFL|
 |MyricaM|inconsolata|Mgen+(M+フォント、源ノ角ゴシック)|1:2|第四まで|OFL|
 |Source Han Code JP|Source Code Pro|源ノ角ゴシック|2:3|第四まで|OFL|
+|NasuM|Source Code Pro|源真ゴシック(源ノ角ゴシック)|1:2|第四まで|Apache|
 |Cica|Ubuntu Mono|Rounded Mgen+ (M+フォント、源ノ角ゴシックの丸ゴ)|1:2|第四まで|OFL|
 |CodeM Font|Source Code Pro|Migu 1M(M+フォント、IPAゴシック)|不定|第二の一部まで|OFL|
 |Migu 1M|M+フォント|Migu 1M(M+フォント、IPAゴシック)|1:2|第四まで|M+,IPA|
@@ -193,4 +194,22 @@ cd ~/fonts/Cica/src
 unzip Cica_v2.0.5.zip
 unitettc64 Cica.ttc Cica-{Regular,Bold,RegularItalic,BoldItalic}.ttf
 mv Cica.ttc ../
+```
+
+## NasuM
+バージョン2014.1215
+
+http://itouhiro.hatenablog.com/entry/20140917/font
+
+### ビルド手順
+
+```bash
+cd ~/fonts/NasuM/src
+unzip NasuFont-20141215.zip
+cd ~/nerd-fonts/
+patch -p1 < ~/fonts/tools/font-patcher.diff
+fontforge -script font-patcher ~/fonts/NasuM/src/NasuFont20141215/NasuM-Regular-20141215.ttf -c
+fontforge -script font-patcher ~/fonts/NasuM/src/NasuFont20141215/NasuM-Bold-20141215.ttf -c
+unitettc64 NasuM.ttc NasuM{Regular,Bold}.ttf
+mv NasuM.ttc ~/fonts/NasuM/
 ```

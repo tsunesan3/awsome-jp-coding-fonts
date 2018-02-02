@@ -148,7 +148,7 @@ rm Ricty*.ttf
 ```
 
 ## Myrica
-バージョン2.010.20160103。
+バージョン2.012.20180119。Inconsolata＋源真ゴシック。Monospaceのみ抽出
 
 https://myrica.estable.jp/myricahistry/
 
@@ -165,7 +165,7 @@ mv Myrica.ttf ~/fonts/Myrica/Myrica.ttf
 
 
 ## MyricaM
-バージョン2.011.20160403。Monospaceのみ抽出
+バージョン2.012.20180119。Inconsolata＋Mgen+。Monospaceのみ抽出
 
 https://myrica.estable.jp/myricamhistry/
 

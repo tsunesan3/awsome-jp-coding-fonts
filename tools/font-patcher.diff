@@ -1,8 +1,8 @@
 diff --git a/font-patcher b/font-patcher
-index d14729d3..36519753 100755
+index d14729d3..3b5b0952 100755
 --- a/font-patcher
 +++ b/font-patcher
-@@ -196,12 +196,17 @@ make_sure_path_exists(args.outputdir)
+@@ -196,12 +196,20 @@ make_sure_path_exists(args.outputdir)
  
  # comply with SIL Open Font License (OFL)
  reservedFontNameReplacements = {
@@ -13,6 +13,9 @@ index d14729d3..36519753 100755
 +    '-book'   : '',
 +    'MyricaM' : 'Myrica',
 +    'onospace' : '',
++    ' ゴシック' : 'Gothic',
++    'VL-regular' : 'VLGothic',
++    'VLGothicRegular' : 'VLGothic',
      'source'  : 'sauce',
      'Source'  : 'Sauce',
      'hermit'  : 'hurmit',

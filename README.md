@@ -43,7 +43,7 @@ unzip unitettc.zip
 chmod 755 unitettc/unitettc64
 sudo mv unitettc/unitettc64 /usr/local/bin/
 
-git clone https://github.com/tsunesan3/fonts.git
+git clone https://github.com/tsunesan3/awsome-jp-coding-fonts.git fonts
 ```
 
 ## Ricty
@@ -212,4 +212,20 @@ fontforge -script font-patcher ~/fonts/NasuM/src/NasuFont20141215/NasuM-Regular-
 fontforge -script font-patcher ~/fonts/NasuM/src/NasuFont20141215/NasuM-Bold-20141215.ttf -c
 unitettc64 NasuM.ttc NasuM{Regular,Bold}.ttf
 mv NasuM.ttc ~/fonts/NasuM/
+```
+
+## VLGothic
+バージョン20141206。等幅のみ。
+
+http://vlgothic.dicey.org
+
+### ビルド手順
+
+```bash
+cd ~/fonts/VLGothic/src
+unzip VLGothic-20141206.zip
+cd ~/nerd-fonts/
+patch -p1 < ~/fonts/tools/font-patcher.diff
+fontforge -script font-patcher ~/fonts/VLGothic/src/VLGothic/VL-Gothic-Regular.ttf -c
+mv VLGothic.ttf ~/fonts/VLGothic/
 ```

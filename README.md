@@ -7,23 +7,21 @@
 2. ゼロと大文字もオー(0O)、数字の1と大文字のアイと小文字のエル(1Il)の区別がつくこと
 3. 日本語を含んでいること
 
-PowerLine、NERDのパッチを当てるとフォント名が"for powerline"や"Nerd font"等が
-付加されますが、空白を含むと設定がややこしくなるので、オリジナルのままになる様に
-しています。また、固定幅フォントだけとして、プロポーショナル等はあっても
-勘違いするだけなので削除しています。
+PowerLine、NERDのパッチを当てるとフォント名が"for powerline"や"Nerd font"等が付加されますが、空白を含むと設定がややこしくなるので、オリジナルのままになる様にしています。また、固定幅フォントだけとして、プロポーショナル等はあっても勘違いするだけなので削除しています。
 
 |フォント名|英数字|日本語|半角:全角|JIS漢字コード|ライセンス|
 |----------|------|------|------------|-------------|----------|
-|Ricty|inconsolata|Migu 1M(M+フォント、IPAゴシック)|1:2|第四まで|OFL,IPA|
-|Ricty Diminished|inconsolata|Circle M+ 1m(M+フォント)|1:2|第二の一部まで|OFL|
-|Ricty Diminished with FiraCode|inconsolata|Circle M+ 1m(M+フォント)|1:2|第二の一部まで|OFL?|
-|Myrica|inconsolata|源真ゴシック(源ノ角ゴシック)|1:2|第四まで|OFL|
-|MyricaM|inconsolata|Mgen+(M+フォント、源ノ角ゴシック)|1:2|第四まで|OFL|
-|Source Han Code JP|Source Code Pro|源ノ角ゴシック|2:3|第四まで|OFL|
-|NasuM|Source Code Pro|源真ゴシック(源ノ角ゴシック)|1:2|第四まで|Apache|
 |Cica|Ubuntu Mono|Rounded Mgen+ (M+フォント、源ノ角ゴシックの丸ゴ)|1:2|第四まで|OFL|
 |CodeM Font|Source Code Pro|Migu 1M(M+フォント、IPAゴシック)|不定|第二の一部まで|OFL|
 |Migu 1M|M+フォント|Migu 1M(M+フォント、IPAゴシック)|1:2|第四まで|M+,IPA|
+|Myrica|inconsolata|源真ゴシック(源ノ角ゴシック)|1:2|第四まで|OFL|
+|MyricaM|inconsolata|Mgen+(M+フォント、源ノ角ゴシック)|1:2|第四まで|OFL|
+|NasuM|Source Code Pro|源真ゴシック(源ノ角ゴシック)|1:2|第四まで|Apache|
+|Ricty|inconsolata|Migu 1M(M+フォント、IPAゴシック)|1:2|第四まで|OFL,IPA|
+|Ricty Diminished|inconsolata|Circle M+ 1m(M+フォント)|1:2|第二の一部まで|OFL|
+|Ricty Diminished with FiraCode|inconsolata|Circle M+ 1m(M+フォント)|1:2|第二の一部まで|OFL?|
+|RobotoJ|Roboto Mono|モトヤLシーダ3等幅、源真ゴシック、Migu、M+フォント|1:2|第四まで|Apache|
+|Source Han Code JP|Source Code Pro|源ノ角ゴシック|2:3|第四まで|OFL|
 |VLゴシック|M+フォント|M+フォント、さざなみ|1:2|第二の一部まで|M+,BSD|
 
 ## 共通の作成環境
@@ -46,6 +44,71 @@ sudo mv unitettc/unitettc64 /usr/local/bin/
 git clone https://github.com/tsunesan3/awsome-jp-coding-fonts.git fonts
 ```
 
+## Cica
+バージョン2.0.5。NERD FontやPowerLineのフォントが最初から適用されいるので、
+4つのファイルをttcに変換だけ実施。
+
+https://tmnm.tech/2017/10/14/cica-v-204/
+
+### ビルド手順
+
+```bash
+cd ~/fonts/Cica/src
+unzip Cica_v2.0.5.zip
+unitettc64 Cica.ttc Cica-{Regular,Bold,RegularItalic,BoldItalic}.ttf
+mv Cica.ttc ../
+```
+
+## Myrica
+バージョン2.012.20180119。Inconsolata＋源真ゴシック。Monospaceのみ抽出
+
+https://myrica.estable.jp/myricahistry/
+
+### ビルド手順
+
+```bash
+cd ~/fonts/Myrica/src
+unitettc64 Myrica*.TTC
+cd ~/nerd-fonts/
+patch -p1 < ~/fonts/tools/font-patcher.diff
+fontforge -script font-patcher ../fonts/Myrica/src/Myrica001.ttf -c
+mv Myrica.ttf ~/fonts/Myrica/Myrica.ttf
+```
+
+
+## MyricaM
+バージョン2.012.20180119。Inconsolata＋Mgen+。Monospaceのみ抽出
+
+https://myrica.estable.jp/myricamhistry/
+
+### ビルド手順
+
+```bash
+cd ~/fonts/MyricaM/src
+unitettc64 Myrica*.TTC
+cd ~/nerd-fonts/
+patch -p1 < ~/fonts/tools/font-patcher.diff
+fontforge -script font-patcher ../fonts/MyricaM/src/MyricaM001.ttf -c
+mv MyricaM.ttf ~/fonts/MyricaM/MyricaM.ttf
+```
+
+## NasuM
+バージョン2014.1215
+
+http://itouhiro.hatenablog.com/entry/20140917/font
+
+### ビルド手順
+
+```bash
+cd ~/fonts/NasuM/src
+unzip NasuFont-20141215.zip
+cd ~/nerd-fonts/
+patch -p1 < ~/fonts/tools/font-patcher.diff
+fontforge -script font-patcher ~/fonts/NasuM/src/NasuFont20141215/NasuM-Regular-20141215.ttf -c
+fontforge -script font-patcher ~/fonts/NasuM/src/NasuFont20141215/NasuM-Bold-20141215.ttf -c
+unitettc64 NasuM.ttc NasuM{Regular,Bold}.ttf
+mv NasuM.ttc ~/fonts/NasuM/
+```
 ## Ricty
 バージョン4.1.1。空白文字はunicodeの2591 (░)に変更。
 レギュラー、ボールド、オブリーク、ボールドオブリークはttcにて一つのフォントにしてます。
@@ -147,71 +210,22 @@ unitettc64 ../fonts/RictyDiminished-with-FiraCode/RictyDiminishedDiscordWithFira
 rm Ricty*.ttf
 ```
 
-## Myrica
-バージョン2.012.20180119。Inconsolata＋源真ゴシック。Monospaceのみ抽出
+## RobotoJ
+バージョン2.05(2016-11-05)。RobotoJ Monoを使用。RegularとBoldにNerdのパッチを適用後、フォント名をRobotoJにして、ttcに変化。
 
-https://myrica.estable.jp/myricahistry/
+https://ja.osdn.net/projects/robotoj-font/
 
 ### ビルド手順
 
 ```bash
-cd ~/fonts/Myrica/src
-unitettc64 Myrica*.TTC
+cd ~/fonts/RobotoJ/src
+tar -zxvf RobotoJMono_20161105.tar.gz
 cd ~/nerd-fonts/
 patch -p1 < ~/fonts/tools/font-patcher.diff
-fontforge -script font-patcher ../fonts/Myrica/src/Myrica001.ttf -c
-mv Myrica.ttf ~/fonts/Myrica/Myrica.ttf
-```
-
-
-## MyricaM
-バージョン2.012.20180119。Inconsolata＋Mgen+。Monospaceのみ抽出
-
-https://myrica.estable.jp/myricamhistry/
-
-### ビルド手順
-
-```bash
-cd ~/fonts/MyricaM/src
-unitettc64 Myrica*.TTC
-cd ~/nerd-fonts/
-patch -p1 < ~/fonts/tools/font-patcher.diff
-fontforge -script font-patcher ../fonts/MyricaM/src/MyricaM001.ttf -c
-mv MyricaM.ttf ~/fonts/MyricaM/MyricaM.ttf
-```
-
-## Cica
-バージョン2.0.5。NERD FontやPowerLineのフォントが最初から適用されいるので、
-4つのファイルをttcに変換だけ実施。
-
-https://tmnm.tech/2017/10/14/cica-v-204/
-
-
-### ビルド手順
-
-```bash
-cd ~/fonts/Cica/src
-unzip Cica_v2.0.5.zip
-unitettc64 Cica.ttc Cica-{Regular,Bold,RegularItalic,BoldItalic}.ttf
-mv Cica.ttc ../
-```
-
-## NasuM
-バージョン2014.1215
-
-http://itouhiro.hatenablog.com/entry/20140917/font
-
-### ビルド手順
-
-```bash
-cd ~/fonts/NasuM/src
-unzip NasuFont-20141215.zip
-cd ~/nerd-fonts/
-patch -p1 < ~/fonts/tools/font-patcher.diff
-fontforge -script font-patcher ~/fonts/NasuM/src/NasuFont20141215/NasuM-Regular-20141215.ttf -c
-fontforge -script font-patcher ~/fonts/NasuM/src/NasuFont20141215/NasuM-Bold-20141215.ttf -c
-unitettc64 NasuM.ttc NasuM{Regular,Bold}.ttf
-mv NasuM.ttc ~/fonts/NasuM/
+fontforge -script font-patcher ~/fonts/RobotoJ/src/RobotoJMono/TTF/RobotoJ-Mono-Regular.ttf -c
+fontforge -script font-patcher ~/fonts/RobotoJ/src/RobotoJMono/TTF/RobotoJ-Mono-Bold.ttf -c
+unitettc64 RobotoJ.ttc RobotoJ{Regular,Bold}.ttf
+mv RobotoJ.ttc ~/fonts/RobotoJ/
 ```
 
 ## VLGothic

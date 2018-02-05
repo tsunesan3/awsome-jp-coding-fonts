@@ -1,8 +1,21 @@
 diff --git a/font-patcher b/font-patcher
-index d14729d3..3b5b0952 100755
+index d14729d3..ed61dc8d 100755
 --- a/font-patcher
 +++ b/font-patcher
-@@ -196,12 +196,20 @@ make_sure_path_exists(args.outputdir)
+@@ -127,6 +127,12 @@ if args.single:
+     verboseAdditionalFontNameSuffix += " Mono"
+ 
+ sourceFont = fontforge.open(args.font)
++new_sfnt_names_list = []
++for x in sourceFont.sfnt_names:
++    if x[0] != 'Japanese':
++        #print x
++        new_sfnt_names_list.append(x)
++sourceFont.sfnt_names = new_sfnt_names_list
+ 
+ # basically split the font name around the dash "-" to get the fontname and the style (e.g. Bold)
+ # this does not seem very reliable so only use the style here as a fallback if the font does not
+@@ -196,12 +202,22 @@ make_sure_path_exists(args.outputdir)
  
  # comply with SIL Open Font License (OFL)
  reservedFontNameReplacements = {
@@ -16,6 +29,8 @@ index d14729d3..3b5b0952 100755
 +    ' ゴシック' : 'Gothic',
 +    'VL-regular' : 'VLGothic',
 +    'VLGothicRegular' : 'VLGothic',
++    'RobotoJ Mono' : 'RobotoJ',
++    'RobotoJ-' : 'RobotoJ',
      'source'  : 'sauce',
      'Source'  : 'Sauce',
      'hermit'  : 'hurmit',

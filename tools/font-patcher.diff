@@ -1,5 +1,5 @@
 diff --git a/font-patcher b/font-patcher
-index d14729d3..ed61dc8d 100755
+index d14729d3..1a1b7f14 100755
 --- a/font-patcher
 +++ b/font-patcher
 @@ -127,6 +127,12 @@ if args.single:
@@ -15,6 +15,15 @@ index d14729d3..ed61dc8d 100755
  
  # basically split the font name around the dash "-" to get the fontname and the style (e.g. Bold)
  # this does not seem very reliable so only use the style here as a fallback if the font does not
+@@ -154,7 +160,7 @@ except IndexError:
+     subFamily = fallbackStyle
+ 
+ # some fonts have inaccurate 'SubFamily', if it is Regular let us trust the filename more:
+-if subFamily == "Regular":
++if subFamily == "Regular" or subFamily == "regular":
+     subFamily = fallbackStyle
+ 
+ if args.windows:
 @@ -196,12 +202,22 @@ make_sure_path_exists(args.outputdir)
  
  # comply with SIL Open Font License (OFL)
@@ -26,8 +35,8 @@ index d14729d3..ed61dc8d 100755
 +    '-book'   : '',
 +    'MyricaM' : 'Myrica',
 +    'onospace' : '',
-+    ' ゴシック' : 'Gothic',
-+    'VL-regular' : 'VLGothic',
++    'VL' : 'VLGothic',
++    'VLGothicGothic' : 'VLGothic',
 +    'VLGothicRegular' : 'VLGothic',
 +    'RobotoJ Mono' : 'RobotoJ',
 +    'RobotoJ-' : 'RobotoJ',

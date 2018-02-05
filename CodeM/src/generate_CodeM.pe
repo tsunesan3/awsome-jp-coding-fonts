@@ -1,0 +1,271 @@
+#!/usr/bin/fontforge
+# vim:ts=2:sw=2:tw=0
+
+Print('--------------------------------------------------')
+
+# --------------------------------------------------
+# Source Code Pro
+# 750 x 250 = 1000(Em)
+# Win(Ascent, Descent)=(-16, -127)
+# hhea(height, width)=(-16, 127)
+# --------------------------------------------------
+# SourceCodePro Regular 書体の変更
+Print('Source Code Pro Regular の編集')
+Open('SourceCodePro-Regular.ttf')
+  # 0x20(半角スペース)?0x007e(チルダ)以外を削除
+  Select(0x0000,0x001f)
+  Clear()
+  Select(0x0080,0x010000)
+  Clear()
+  # ----------
+  SelectNone()
+  SelectAll()
+  ClearInstrs()
+  #ClearHints()
+  UnlinkReference()
+  CenterInWidth()
+Generate('tmp_scp_reg.ttf')
+Close()
+# --------------------------------------------------
+# SourceCodePro Bold 書体の変更
+Print('Source Code Pro Bold の編集')
+Open('SourceCodePro-Bold.ttf')
+  # 0x20(半角スペース)?0x007e(チルダ)以外を削除
+  Select(0x0000,0x001f)
+  Clear()
+  Select(0x0080,0x010000)
+  Clear()
+  # ----------
+  SelectNone()
+  SelectAll()
+  ClearInstrs()
+  #ClearHints()
+  UnlinkReference()
+  CenterInWidth()
+Generate('tmp_scp_bold.ttf')
+Close()
+
+# --------------------------------------------------
+# Migu 1M
+# 750 x 140 = 1000(Em)
+# Win(Ascent, Descent)=(-195, -90)
+# hhea(height, width)=(-195, 90)
+# --------------------------------------------------
+# Migu-1m Regular 書体の変更
+Print('Migu 1M Regular の編集')
+Open('migu-1m-regular.ttf')
+  # 0x20(半角スペース)?0x007e(チルダ)を削除
+  Select(0x0020,0x007e)
+  Clear()
+  # ----------
+  SelectNone()
+  SelectAll()
+  ClearInstrs()
+  #ClearHints()
+  UnlinkReference()
+  ScaleToEm(800,400);
+  CenterInWidth()
+Generate('tmp_mig_1m_r.ttf')
+Close()
+# --------------------------------------------------
+# Migu-1m Bold 書体の変更
+Print('Migu 1M Bold の編集')
+Open('migu-1m-bold.ttf')
+  # 0x20(半角スペース)?0x007e(チルダ)を削除
+  Select(0x0020,0x007e)
+  Clear()
+  # ----------
+  SelectNone()
+  SelectAll()
+  ClearInstrs()
+  #ClearHints()
+  UnlinkReference()
+  ScaleToEm(800,400);
+  CenterInWidth()
+Generate('tmp_mig_1m_b.ttf')
+Close()
+
+
+
+
+# --------------------------------------------------
+# CodeM
+# 750 x 250 = 1110(Em)
+# Win(Ascent, Descent)=(-195, -90)
+# hhea(height, width)=(-195, 90)
+# --------------------------------------------------
+# CodeM Regular の生成
+Open('tmp_mig_1m_r.ttf')
+MergeFonts('tmp_scp_reg.ttf')
+
+  copyright   = 'CodeM Generator Author: Masayuki Fukada\n' \
+              + 'Copyright (c) 2013 '
+  version     = '1.0.0'
+
+  # Regular
+  Print('CodeM-Regular の生成')
+  SetFontNames('CodeM-Regular', 'CodeM', 'CodeM Regular', 'Regular', copyright, version)
+  SetTTFName(0x411, 1, 'CodeM')
+  SetUniqueID(0)
+  SetOS2Value('VendorID',                'MfFt')
+  SetOS2Value('TypoLineGap',             0)
+  # ------------------------------
+  # フォント改造
+  Select(0u0021)                # !
+    ExpandStroke(20,0,0,0,1)
+  Select(0u002c)                # ,
+    ExpandStroke(20,0,0,0,1)
+  Select(0u002d); Move(0,-80);  # -
+  Select(0u002e)                # .
+    ExpandStroke(20,0,0,0,1)
+  Select(0u003a)                # :
+    ExpandStroke(20,0,0,0,1)
+  Select(0u003b)                # ;
+    ExpandStroke(20,0,0,0,1)
+  Select(0u003c); Move(0,-80);  # <
+  Select(0u003d); Move(0,-80);  # =
+  Select(0u003e); Move(0,-80);  # >
+  Select(0u0040); Move(0, 80);  # @
+  Select(0u005b); Move(0, 40);  # [
+  Select(0u005d); Move(0, 40);  # ]
+  Select(0u005e); Move(0,180);  # ^
+  Select(0u005f); Move(0,-60);  # _
+    ExpandStroke(40,0,0,0,1)
+  Select(0u007b); Move(0, 40);  # {
+  Select(0u007c); Move(0, 70);  # |
+    Select(0u002d); Copy(); Select(0u009c); Paste();
+    Rotate(90); Move(0,340); Copy(); Select(0u007c); Paste();
+    Select(0u002d); Copy(); Select(0u009c); Paste();
+    Rotate(90); Move(0,-140); Copy(); Select(0u007c); PasteInto();
+  Select(0u007d); Move(0, 40);  # }
+  Select(0u007e); Move(0,260);  # ~
+  #句読点の位置調整
+  Select(0u3001); Move(-140,0); # 、（読点）
+    SetWidth(140,1)
+  Select(0u3002); Move(-140,0); # 。（句点）
+    SetWidth(140,1)
+  #全角空白
+  Select(0u2610); Copy(); Select(0u3000); Paste()
+  Select(0u271a); Copy(); Select(0u3000); PasteInto()
+  OverlapIntersect()
+  # ------------------------------
+  defAscent  = GetOS2Value('WinAscent')
+  defDescent = GetOS2Value('WinDescent')
+  addAscent  = defAscent + 64
+  addDescent = defDescent + 16
+  SetOS2Value('WinAscent',               addAscent)
+  SetOS2Value('WinDescent',              addDescent)
+  SetOS2Value('HHeadAscent',             addAscent)
+  SetOS2Value('HHeadDescent',           -addDescent)
+  Generate('CodeM-Regular.ttf')
+  # Wide
+  Print('CodeM-Regular-Wide の生成')
+  SetFontNames('CodeMWide-Regular', 'CodeM Wide', 'CodeM Wide Regular', 'Wide', copyright, version)
+  SetTTFName(0x411, 1, 'CodeM Wide')
+  addAscent  = defAscent + 128
+  addDescent = defDescent + 32
+  SetOS2Value('WinAscent',               addAscent)
+  SetOS2Value('WinDescent',              addDescent)
+  SetOS2Value('HHeadAscent',             addAscent)
+  SetOS2Value('HHeadDescent',           -addDescent)
+  Generate('CodeM-Regular-Wide.ttf')
+  # Expanded
+  Print('CodeM-Regular-Expanded の生成')
+  SetFontNames('CodeMExpanded-Regular', 'CodeM Expanded', 'CodeM Expanded Regular', 'Expanded', copyright, version)
+  SetTTFName(0x411, 1, 'CodeM Expanded')
+  addAscent  = defAscent + 192
+  addDescent = defDescent + 48
+  SetOS2Value('WinAscent',               addAscent)
+  SetOS2Value('WinDescent',              addDescent)
+  SetOS2Value('HHeadAscent',             addAscent)
+  SetOS2Value('HHeadDescent',           -addDescent)
+  Generate('CodeM-Regular-Expanded.ttf')
+Close()
+
+# CodeM Bold の生成
+Open('tmp_mig_1m_b.ttf')
+MergeFonts('tmp_scp_bold.ttf')
+
+  copyright   = 'CodeM Generator Author: Masayuki Fukada\n' \
+              + 'Copyright (c) 2013 '
+  version     = '1.0.0'
+
+  # Bold
+  Print('CodeM-Bold の生成')
+  SetFontNames('CodeM-Bold', 'CodeM', 'CodeM Bold', 'Bold', copyright, version)
+  SetTTFName(0x411, 1, 'CodeM')
+  SetUniqueID(0)
+  SetOS2Value('VendorID',                'MfFt')
+  SetOS2Value('TypoLineGap',             0)
+  # ------------------------------
+  # フォント改造　
+  Select(0u0021)                # !
+    ExpandStroke(20,0,0,0,1)
+  Select(0u002c)                # ,
+    ExpandStroke(20,0,0,0,1)
+  Select(0u002d); Move(0,-80);  # -
+  Select(0u002e)                # .
+    ExpandStroke(20,0,0,0,1)
+  Select(0u003a)                # :
+    ExpandStroke(20,0,0,0,1)
+  Select(0u003b)                # ;
+    ExpandStroke(20,0,0,0,1)
+  Select(0u003c); Move(0,-80);  # <
+  Select(0u003d); Move(0,-80);  # =
+  Select(0u003e); Move(0,-80);  # >
+  Select(0u0040); Move(0, 80);  # @
+  Select(0u005b); Move(0, 40);  # [
+  Select(0u005d); Move(0, 40);  # ]
+  Select(0u005e); Move(0,180);  # ^
+  Select(0u005f); Move(0,-60);  # _
+    ExpandStroke(40,0,0,0,1)
+  Select(0u007b); Move(0, 40);  # {
+  Select(0u007c); Move(0, 70);  # |
+    Select(0u002d); Copy(); Select(0u009c); Paste();
+    Rotate(90); Move(0,340); Copy(); Select(0u007c); Paste();
+    Select(0u002d); Copy(); Select(0u009c); Paste();
+    Rotate(90); Move(0,-140); Copy(); Select(0u007c); PasteInto();
+  Select(0u007d); Move(0, 40);  # }
+  Select(0u007e); Move(0,260);  # ~
+  #句読点の位置調整
+  Select(0u3001); Move(-140,0); # 、（読点）
+    SetWidth(140,1)
+  Select(0u3002); Move(-140,0); # 。（句点）
+    SetWidth(140,1)
+  #全角空白
+  Select(0u2610); Copy(); Select(0u3000); Paste()
+  Select(0u271a); Copy(); Select(0u3000); PasteInto()
+  OverlapIntersect()
+  # ------------------------------
+  defAscent  = GetOS2Value('WinAscent')
+  defDescent = GetOS2Value('WinDescent')
+  addAscent  = defAscent + 64
+  addDescent = defDescent + 16
+  SetOS2Value('WinAscent',               addAscent)
+  SetOS2Value('WinDescent',              addDescent)
+  SetOS2Value('HHeadAscent',             addAscent)
+  SetOS2Value('HHeadDescent',           -addDescent)
+  Generate('CodeM-Bold.ttf')
+  # Wide
+  Print('CodeM-Bold-Wide の生成')
+  SetFontNames('CodeMWide-Bold', 'CodeM Wide', 'CodeM Wide Bold', 'Wide', copyright, version)
+  SetTTFName(0x411, 1, 'CodeM Wide')
+  addAscent  = defAscent + 128
+  addDescent = defDescent + 32
+  SetOS2Value('WinAscent',               addAscent)
+  SetOS2Value('WinDescent',              addDescent)
+  SetOS2Value('HHeadAscent',             addAscent)
+  SetOS2Value('HHeadDescent',           -addDescent)
+  Generate('CodeM-Bold-Wide.ttf')
+  # Expanded
+  Print('CodeM-Bold-Expanded の生成')
+  SetFontNames('CodeMExpanded-Bold', 'CodeM Expanded', 'CodeM Expanded Bold', 'Expanded', copyright, version)
+  SetTTFName(0x411, 1, 'CodeM Expanded')
+  addAscent  = defAscent + 192
+  addDescent = defDescent + 48
+  SetOS2Value('WinAscent',               addAscent)
+  SetOS2Value('WinDescent',              addDescent)
+  SetOS2Value('HHeadAscent',             addAscent)
+  SetOS2Value('HHeadDescent',           -addDescent)
+  Generate('CodeM-Bold-Expanded.ttf')
+Close()

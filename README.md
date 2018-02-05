@@ -59,6 +59,24 @@ unitettc64 Cica.ttc Cica-{Regular,Bold,RegularItalic,BoldItalic}.ttf
 mv Cica.ttc ../
 ```
 
+## CodeM Font
+バージョン2016/12/19
+
+https://github.com/MasayukiFukada/CodeMFont
+
+### 作成環境
+
+* generate_CodeM.pe  9781a38(2016/12/19)
+* SourceCodePro: 2.030R-ro 482adca
+* Migu 1M    20150712
+
+
+## Migu1M
+バージョン20150712
+
+http://mix-mplus-ipa.osdn.jp/migu/
+
+
 ## Myrica
 バージョン2.012.20180119。Inconsolata＋源真ゴシック。Monospaceのみ抽出
 

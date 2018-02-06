@@ -65,7 +65,7 @@ mv Cica.ttc ../
 ```
 
 ## CodeM Font
-バージョン2016/12/19
+バージョン2016/12/19。行間が通常、やや広め(Wide)、広め(Expanded)の3種類が作られるます。
 
 https://github.com/MasayukiFukada/CodeMFont
 
@@ -75,6 +75,27 @@ https://github.com/MasayukiFukada/CodeMFont
 * SourceCodePro: 2.030R-ro 482adca
 * Migu 1M    20150712
 
+### ビルド手順
+
+```bash
+cd ~/fonts/Migu1M/src/
+unzip migu-1m-20150712.zip
+cd ~/fonts/CodeM/src
+cp ../../Migu1M/src/migu-1m-20150712/migu-*.ttf .
+fontforge -script generate_CodeM.pe
+cd ~/nerd-fonts/
+patch -p1 < ~/fonts/tools/font-patcher.diff
+fontforge -script font-patcher ../fonts/CodeM/src/CodeM-Regular-Expanded.ttf -c
+fontforge -script font-patcher ../fonts/CodeM/src/CodeM-Bold-Expanded.ttf -c
+fontforge -script font-patcher ../fonts/CodeM/src/CodeM-Regular-Wide.ttf -c
+fontforge -script font-patcher ../fonts/CodeM/src/CodeM-Bold-Wide.ttf -c
+fontforge -script font-patcher ../fonts/CodeM/src/CodeM-Regular.ttf -c
+fontforge -script font-patcher ../fonts/CodeM/src/CodeM-Bold.ttf -c
+unitettc64 CodeM.ttc CodeM-{Regular,Bold}.ttf
+unitettc64 CodeMWide.ttc CodeMWide-{Regular,Bold}.ttf
+unitettc64 CodeMExpanded.ttc CodeMExpanded-{Regular,Bold}.ttf
+mv CodeM*.ttc ../fonts/CodeM/
+```
 
 ## Migu1M
 バージョン20150712

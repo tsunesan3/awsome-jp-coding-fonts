@@ -173,7 +173,7 @@ git checkout .
 patch -p1 < ~/fonts/tools/font-patcher.diff
 fontforge -script font-patcher ~/fonts/NasuM/src/NasuFont20141215/NasuM-Regular-20141215.ttf -c
 fontforge -script font-patcher ~/fonts/NasuM/src/NasuFont20141215/NasuM-Bold-20141215.ttf -c
-unitettc64 NasuM.ttc NasuM{Regular,Bold}.ttf
+unitettc64 NasuM.ttc NasuM-{Regular,Bold}.ttf
 mv NasuM.ttc ~/fonts/NasuM/
 ```
 ## Ricty

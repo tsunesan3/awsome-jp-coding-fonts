@@ -1,13 +1,18 @@
 # プログラミング用フォント
 
-日本語プログラミング用フォントを集めてVIM用のPowerLineとNERDのフォントを当てました。
-紹介するフォントは下記の条件に合うものです。
+日本語プログラミング用フォントを集めてVIM用のPowerLineとNERDのフォントを当てました。紹介するフォントは下記の条件に合うものです。
 
 1. 固定幅フォント
 2. ゼロと大文字もオー(0O)、数字の1と大文字のアイと小文字のエル(1Il)の区別がつくこと
 3. 日本語を含んでいること
 
 PowerLine、NERDのパッチを当てるとフォント名が"for powerline"や"Nerd font"等が付加されますが、空白を含むと設定がややこしくなるので、オリジナルのままになる様にしています。また、固定幅フォントだけとして、プロポーショナル等はあっても勘違いするだけなので削除しています。
+フォント名は下記のように修正しています。
+
+* ファミリーネーム： 単語の最初は大文字、２文字目以降は小文字、空白は削除
+* 正式名称： ファミリーネーム＋ダッシュ＋スタイル名(１文字目だけ大文字)
+* PostScript名： 正式名称と同じ
+* 日本語フォント名は削除
 
 |フォント名|英数字|日本語|半角:全角|JIS漢字コード|ライセンス|
 |----------|------|------|------------|-------------|----------|
@@ -76,6 +81,19 @@ https://github.com/MasayukiFukada/CodeMFont
 
 http://mix-mplus-ipa.osdn.jp/migu/
 
+
+### ビルド手順
+
+```bash
+cd ~/fonts/Migu1M/src/
+unzip migu-1m-20150712.zip
+cd ~/nerd-fonts/
+patch -p1 < ~/fonts/tools/font-patcher.diff
+fontforge -script font-patcher ../fonts/Migu1M/src/migu-1m-20150712/migu-1m-regular.ttf -c
+fontforge -script font-patcher ../fonts/Migu1M/src/migu-1m-20150712/migu-1m-bold.ttf -c
+unitettc64 Migu1M.ttc Migu1M-{Regular,Bold}.ttf
+mv Migu1M.ttc ../fonts/Migu1M/
+```
 
 ## Myrica
 バージョン2.012.20180119。Inconsolata＋源真ゴシック。Monospaceのみ抽出

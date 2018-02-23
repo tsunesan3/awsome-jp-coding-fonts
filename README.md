@@ -177,7 +177,7 @@ unitettc64 NasuM.ttc NasuM-{Regular,Bold}.ttf
 mv NasuM.ttc ~/fonts/NasuM/
 ```
 ## Ricty
-バージョン4.1.1。空白文字はunicodeの2591 (░)に変更。
+バージョン4.1.1。空白文字はRicty Diminishedと同様の可視化。
 レギュラー、ボールド、オブリーク、ボールドオブリークはttcにて一つのフォントにしてます。
 OSXにインストールするとフォントの検証中に"nameテーブルの使用性"の問題が見つかりますが、
 使用に問題ないのでそのまままインストールしてください。
@@ -197,20 +197,30 @@ cd ~/fonts/Migu1M/src/
 unzip -o migu-1m-20150712.zip
 cd ~/fonts/Ricty/src/
 cp ../../Migu1M/src/migu-1m-20150712/migu-*.ttf .
-./ricty_generator.sh  -Z 2591 Inconsolata-{Regular,Bold}.ttf migu-1m-{regular,bold}.ttf
+sed -e 's/zenkaku_space_glyph="0u${OPTARG}"/zenkaku_space_glyph=""/' ricty_generator.sh > tmp.sh
+chmod 755 tmp.sh
+./tmp.sh  -Z XXXX Inconsolata-{Regular,Bold}.ttf migu-1m-{regular,bold}.ttf
 cd ~/nerd-fonts
 git checkout .
 patch -p1 < ~/fonts/tools/font-patcher.diff
+rm Ricty*
 fontforge -script font-patcher ../fonts/Ricty/src/Ricty-Regular.ttf -c
 fontforge -script font-patcher ../fonts/Ricty/src/Ricty-Bold.ttf -c
 fontforge -script font-patcher ../fonts/Ricty/src/Ricty-Oblique.ttf -c
 fontforge -script font-patcher ../fonts/Ricty/src/Ricty-BoldOblique.ttf -c
-unitettc64 Ricty.ttc Ricty-{Regular,Bold,Oblique,Bold-Oblique}.ttf
-rm Ricty*.ttf
 fontforge -script font-patcher ../fonts/Ricty/src/RictyDiscord-Regular.ttf -c
 fontforge -script font-patcher ../fonts/Ricty/src/RictyDiscord-Bold.ttf -c
 fontforge -script font-patcher ../fonts/Ricty/src/RictyDiscord-Oblique.ttf -c
 fontforge -script font-patcher ../fonts/Ricty/src/RictyDiscord-BoldOblique.ttf -c
+#./os2version_reviser.sh Ricty*.ttf
+# ttx -t 'OS/2' migu-1m-regular.ttf | grep xAvgCharWidth migu-1m-regular.ttx
+ls Ricty*.ttf|sed 's/ttf/tt/' > font.list
+while read font; do
+  ttx -ft 'OS/2' ${font}f
+  sed -i 's@<xAvgCharWidth value=".*"/>@<xAvgCharWidth value="500"/>@' ${font}x
+  ttx -fm ${font}{f,x}
+done < font.list
+unitettc64 Ricty.ttc Ricty-{Regular,Bold,Oblique,BoldOblique}.ttf
 unitettc64 RictyDiscord.ttc RictyDiscord-{Regular,Bold,Oblique,BoldOblique}.ttf
 rm Ricty*.ttf
 mv Ricty*.ttc ../fonts/Ricty/
@@ -229,13 +239,6 @@ http://www.rs.tus.ac.jp/yyusa/ricty_diminished.html
 ### ビルド手順
 
 ```bash
-cd ~/fonts/Migu1M/src/
-unzip -o migu-1m-20150712.zip
-cd ~/fonts/CodeM/src
-cp ../../Migu1M/src/migu-1m-20150712/migu-*.ttf .
-fontforge -script generate_CodeM.pe
-
-
 cd ~/nerd-fonts
 git checkout .
 patch -p1 < ~/fonts/tools/font-patcher.diff

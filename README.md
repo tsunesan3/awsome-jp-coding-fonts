@@ -53,8 +53,9 @@ git clone https://github.com/tsunesan3/awsome-jp-coding-fonts.git fonts
 ```
 
 ## Cica
-バージョン2.0.5。NERD FontやPowerLineのフォントが最初から適用されているので、
+バージョン4.1.1。NERD FontやPowerLineのフォントが最初から適用されているので、
 4つのファイルをttcに統合しただけ。
+(フォント情報のバージョンは4.1.0と表示されるが、オリジナルも4.1.0と表示されるため。)
 
 https://tmnm.tech/2017/10/14/cica-v-204/
 
@@ -62,9 +63,13 @@ https://tmnm.tech/2017/10/14/cica-v-204/
 
 ```bash
 cd ~/fonts/Cica/src
-unzip -o Cica_v2.0.5.zip
+unzip -o Cica-v4.1.1.zip
 unitettc64 Cica.ttc Cica-{Regular,Bold,RegularItalic,BoldItalic}.ttf
-mv Cica.ttc ../
+cd noemoji/
+unitettc64 Cica.ttc Cica-{Regular,Bold,RegularItalic,BoldItalic}.ttf
+rm *.ttf
+cd ..
+mv Cica.ttc noemoji ../
 ```
 
 ## CodeM Font

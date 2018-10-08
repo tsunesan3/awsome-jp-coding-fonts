@@ -6,7 +6,7 @@
 2. ゼロと大文字もオー(0O)、数字の1と大文字のアイと小文字のエル(1Il)の区別がつくこと
 3. 日本語を含んでいること
 
-PowerLine、NERDのパッチを当てるとフォント名が"for powerline"や"Nerd font"等が付加されますが、空白を含むと設定がややこしくなるので、オリジナルのままになる様にしています。また、固定幅フォントだけとして、プロポーショナル等はあっても勘違いするだけなので削除しています。
+PowerLine、NERDのパッチを当てるとフォント名が"for powerline"や"Nerd font"等が付加されますが、空白を含むと設定がややこしくなるので、オリジナルのフォント名に戻しています。また、固定幅フォントだけとして、プロポーショナル等はあっても勘違いするだけなので削除しています。
 フォント名は下記のように修正しています。
 
 * ファミリーネーム： 単語の最初は大文字、２文字目以降は小文字、空白は削除
@@ -53,8 +53,8 @@ git clone https://github.com/tsunesan3/awsome-jp-coding-fonts.git fonts
 ```
 
 ## Cica
-バージョン2.0.5。NERD FontやPowerLineのフォントが最初から適用されいるので、
-4つのファイルをttcに変換だけ実施。
+バージョン2.0.5。NERD FontやPowerLineのフォントが最初から適用されているので、
+4つのファイルをttcに統合しただけ。
 
 https://tmnm.tech/2017/10/14/cica-v-204/
 
@@ -68,7 +68,7 @@ mv Cica.ttc ../
 ```
 
 ## CodeM Font
-バージョン2016/12/19。行間が通常、やや広め(Wide)、広め(Expanded)の3種類が作られるます。
+バージョン2016/12/19。行間が通常、やや広め(Wide)、広め(Expanded)の3種類が作られる。
 
 https://github.com/MasayukiFukada/CodeMFont
 
@@ -124,6 +124,8 @@ mv Migu1M.ttc ../fonts/Migu1M/
 ## Myrica
 バージョン2.012.20180119。Inconsolata＋源真ゴシック。Monospaceのみ抽出
 
+円記号Yen Sign(0x00a5)が全角。元になっている源真ゴシックが全角になっていることが原因。円記号とバックスラッシュの入力が簡単にできるLinuxとOSXを使う場合は注意。プログラミングでは円記号を使わない(使うべきではない)のでわかりやすく逆に便利かも。
+
 https://myrica.estable.jp/myricahistry/
 
 ### ビルド手順
@@ -161,6 +163,8 @@ mv MyricaM.ttf ~/fonts/MyricaM/MyricaM.ttf
 ## NasuM
 バージョン2014.1215
 
+円記号Yen Sign(0x00a5)が全角。元になっている源真ゴシックが全角になっていることが原因。円記号とバックスラッシュの入力が簡単にできるLinuxとOSXを使う場合は注意。プログラミングでは円記号を使わない(使うべきではない)のでわかりやすく逆に便利かも。
+
 http://itouhiro.hatenablog.com/entry/20140917/font
 
 ### ビルド手順
@@ -179,8 +183,6 @@ mv NasuM.ttc ~/fonts/NasuM/
 ## Ricty
 バージョン4.1.1。空白文字はRicty Diminishedと同様の可視化。
 レギュラー、ボールド、オブリーク、ボールドオブリークはttcにて一つのフォントにしてます。
-OSXにインストールするとフォントの検証中に"nameテーブルの使用性"の問題が見つかりますが、
-使用に問題ないのでそのまままインストールしてください。
 
 http://www.rs.tus.ac.jp/yyusa/ricty.html
 
@@ -293,7 +295,7 @@ mv RictyDiminished*.ttc ../fonts/RictyDiminished-with-FiraCode/
 ```
 
 ## RobotoJ
-バージョン2.05(2016-11-05)。RobotoJ Monoを使用。RegularとBoldにNerdのパッチを適用後、フォント名をRobotoJにして、ttcに変化。
+バージョン2.05(2016-11-05)。RobotoJ Monoを使用。RegularとBoldにNerdのパッチを適用後、フォント名をRobotoJにして、ttcに統合。
 
 https://ja.osdn.net/projects/robotoj-font/
 

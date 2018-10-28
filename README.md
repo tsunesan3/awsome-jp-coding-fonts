@@ -16,7 +16,8 @@ PowerLine、NERDのパッチを当てるとフォント名が"for powerline"や"
 
 |フォント名|英数字|日本語|半角:全角|JIS漢字コード|ライセンス|
 |----------|------|------|------------|-------------|----------|
-|Cica|Ubuntu Mono|Rounded Mgen+ (M+フォント、源ノ角ゴシックの丸ゴ)|1:2|第四まで|OFL|
+|Cica|Hack|Rounded Mgen+ (M+フォント、源ノ角ゴシックの丸ゴ)|1:2|第四まで|OFL|
+|CicaV3|Ubuntu Mono|Rounded Mgen+ (M+フォント、源ノ角ゴシックの丸ゴ)|1:2|第四まで|OFL|
 |CodeM Font|Source Code Pro|Migu 1M(M+フォント、IPAゴシック)|不定|第二の一部まで|OFL|
 |Migu 1M|M+フォント|Migu 1M(M+フォント、IPAゴシック)|1:2|第四まで|M+,IPA|
 |Myrica|inconsolata|源真ゴシック(源ノ角ゴシック)|1:2|第四まで|OFL|
@@ -52,12 +53,13 @@ sudo mv unitettc/unitettc64 /usr/local/bin/
 git clone https://github.com/tsunesan3/awsome-jp-coding-fonts.git fonts
 ```
 
-## Cica
-バージョン4.1.1。NERD FontやPowerLineのフォントが最初から適用されているので、
+## Cica/CicaV3
+バージョン3.0.0と4.1.1。NERD FontやPowerLineのフォントが最初から適用されているので、
 4つのファイルをttcに統合しただけ。
-(フォント情報のバージョンは4.1.0と表示されるが、オリジナルも4.1.0と表示されるため。)
+3.0.0までは英数字がUbuntu Monoだったが、4.0以降はHackに変更されたので両方を保存。
+(4.1.1のフォント情報のバージョンは4.1.0と表示されるが、オリジナルも4.1.0と表示されるため。)
 
-https://tmnm.tech/2017/10/14/cica-v-204/
+https://github.com/miiton/Cica
 
 ### ビルド手順
 

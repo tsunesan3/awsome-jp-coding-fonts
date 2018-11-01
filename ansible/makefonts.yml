@@ -555,3 +555,36 @@
 
   - shell: rm -fr work && mkdir work
     tags: VLGothic
+
+########################################################
+# Release
+########################################################
+  - name: copy all fonts for release
+    copy: src=../{{ item }} dest=work
+    with_items:
+      - README.md
+      - Cica/Cica.ttc
+      - CodeM/CodeM.ttc
+      - CodeM/CodeMWide.ttc
+      - CodeM/CodeMExpanded.ttc
+      - Migu1M/Migu1M.ttc
+      - Myrica/Myrica.ttf
+      - MyricaM/MyricaM.ttf
+      - NasuM/NasuM.ttc
+      - Ricty/Ricty.ttc
+      - Ricty/RictyDiscord.ttc
+      - RictyDiminished/RictyDiminished.ttc
+      - RictyDiminished/RictyDiminishedDiscord.ttc
+      - RictyDiminished-with-FiraCode/RictyDiminishedWithFiraCode.ttc
+      - RictyDiminished-with-FiraCode/RictyDiminishedDiscordWithFiraCode.ttc
+      - RobotoJ/RobotoJ.ttc
+      - Utatane/Utatane.ttc
+      - VLGothic/VLGothic.ttf
+    tags: release
+
+  - name: zip all fonts
+    archive: format=zip path=work/* dest=awsome-jp-coding-fonts.zip
+    tags: release
+
+  - shell: rm -fr work && mkdir work
+    tags: release

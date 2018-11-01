@@ -14,6 +14,7 @@
       - make
       - python-pip
       - python-fonttools
+      - p7zip-full
     tags: base
 
   - name: install python modules
@@ -472,11 +473,11 @@
 
   - name: checkout nerd font
     shell: git checkout -f . chdir=../nerd-fonts
-    tags: RictyDiminished
+    tags: RobotoJ
 
   - name: patch to nerd font
     patch: src=../tools/font-patcher.diff basedir=../nerd-fonts/ strip=1
-    tags: RictyDiminished
+    tags: RobotoJ
 
   - name: patch nerd font
     shell: "cd work && fontforge -script ../../nerd-fonts/font-patcher {{ item }} -c -q"
@@ -491,6 +492,41 @@
            mv RobotoJ.ttc ../../RobotoJ/ \
            executable=/bin/bash
     tags: RobotoJ
+
+  - shell: rm -fr work && mkdir work
+    tags: RobotoJ
+
+########################################################
+# Utatane
+########################################################
+  - name: Unarchive Utatane
+    shell: cd work && p7zip -f -k -d ../../Utatane/src/Utatane_v1.0.7.7z
+    tags: Utatane
+
+  - name: checkout nerd font
+    shell: git checkout -f . chdir=../nerd-fonts
+    tags: Utatane
+
+  - name: patch to nerd font
+    patch: src=../tools/font-patcher.diff basedir=../nerd-fonts/ strip=1
+    tags: Utatane
+
+  - name: patch nerd font
+    shell: "cd work && fontforge -script ../../nerd-fonts/font-patcher {{ item }} -c -q"
+    with_items:
+      - Utatane_v1.0.7/Utatane-Regular.ttf
+      - Utatane_v1.0.7/Utatane-Bold.ttf
+    tags: Utatane
+
+  - name: create ttc
+    shell: cd work && \
+           unitettc64 Utatane.ttc Utatane-{Regular,Bold}.ttf && \
+           mv Utatane.ttc ../../Utatane/ \
+           executable=/bin/bash
+    tags: Utatane
+
+  - shell: rm -fr work && mkdir work
+    tags: Utatane
 
 ########################################################
 # VLGothic

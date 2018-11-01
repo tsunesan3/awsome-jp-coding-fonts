@@ -18,7 +18,7 @@ PowerLine、NERDのパッチを当てるとフォント名が"for powerline"や"
 |----------|------|------|------------|-------------|----------|
 |Cica|Hack|Rounded Mgen+ (M+フォント、源ノ角ゴシックの丸ゴ)|1:2|第四まで|OFL|
 |CicaV3|Ubuntu Mono|Rounded Mgen+ (M+フォント、源ノ角ゴシックの丸ゴ)|1:2|第四まで|OFL|
-|CodeM Font|Source Code Pro|Migu 1M(M+フォント、IPAゴシック)|不定|第二の一部まで|OFL|
+|CodeM Font|Source Code Pro|Migu 1M(M+フォント、IPAゴシック)|1:2|第二の一部まで|OFL|
 |Migu 1M|M+フォント|Migu 1M(M+フォント、IPAゴシック)|1:2|第四まで|M+,IPA|
 |Myrica|inconsolata|源真ゴシック(源ノ角ゴシック)|1:2|第四まで|OFL|
 |MyricaM|inconsolata|Mgen+(M+フォント、源ノ角ゴシック)|1:2|第四まで|OFL|
@@ -28,6 +28,7 @@ PowerLine、NERDのパッチを当てるとフォント名が"for powerline"や"
 |Ricty Diminished with FiraCode|inconsolata|Circle M+ 1m(M+フォント)|1:2|第二の一部まで|OFL?|
 |RobotoJ|Roboto Mono|モトヤLシーダ3等幅、源真ゴシック、Migu、M+フォント|1:2|第四まで|Apache|
 |Source Han Code JP|Source Code Pro|源ノ角ゴシック|2:3|第四まで|OFL|
+|Utatane|Ubuntu Mono|やさしさゴシック（M+フォント、IPAゴシック）|1:2|第四まで|M+,IPA|
 |VLゴシック|M+フォント|M+フォント、さざなみ|1:2|第二の一部まで|M+,BSD|
 
 ## 共通の作成環境
@@ -302,6 +303,8 @@ mv RictyDiminished*.ttc ../fonts/RictyDiminished-with-FiraCode/
 ```
 
 ## RobotoJ
+一番のお気に入り。
+
 バージョン2.05(2016-11-05)。RobotoJ Monoを使用。RegularとBoldにNerdのパッチを適用後、フォント名をRobotoJにして、ttcに統合。
 
 https://ja.osdn.net/projects/robotoj-font/
@@ -318,6 +321,29 @@ fontforge -script font-patcher ~/fonts/RobotoJ/src/RobotoJMono/TTF/RobotoJ-Mono-
 fontforge -script font-patcher ~/fonts/RobotoJ/src/RobotoJMono/TTF/RobotoJ-Mono-Bold.ttf -c
 unitettc64 RobotoJ.ttc RobotoJ-{Regular,Bold}.ttf
 mv RobotoJ.ttc ~/fonts/RobotoJ/
+```
+
+## Utatane
+やさしい気持ちでコードを書くときはこちらのフォントがおすすめ。
+
+バージョン1.0.7。Nerdのパッチを適用後、ttcに統合。
+
+https://github.com/nv-h/Utatane
+
+### ビルド手順
+
+```bash
+cd ~/fonts/Utatane/src
+p7zip -k -f -d Utatane_v1.0.7.7z
+cd ~/nerd-fonts/
+git checkout .
+patch -p1 < ~/fonts/tools/font-patcher.diff
+fontforge -script font-patcher ~/fonts/Utatane/src/Utatane_v1.0.7/Utatane-Regular.ttf -c
+fontforge -script font-patcher ~/fonts/Utatane/src/Utatane_v1.0.7/Utatane-Bold.ttf -c
+unitettc64 Utatane.ttc Utatane-{Regular,Bold}.ttf
+mv Utatane.ttc ~/fonts/Utatane/
+```
+
 ```
 
 ## VLGothic

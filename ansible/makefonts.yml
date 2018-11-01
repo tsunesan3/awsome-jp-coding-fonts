@@ -300,6 +300,40 @@
     tags: NasuM
 
 ########################################################
+# Ocami
+########################################################
+  - name: Unarchive Ocami
+    unarchive: src=../Ocami/src/Ocami-0.5.0.zip dest=work
+    tags: Ocami
+
+  - name: checkout nerd font
+    shell: git checkout -f . chdir=../nerd-fonts
+    tags: Ocami
+
+  - name: patch to nerd font
+    patch: src=../tools/font-patcher.diff basedir=../nerd-fonts/ strip=1
+    tags: Ocami
+
+  - name: patch nerd font
+    shell: "cd work && fontforge -script ../../nerd-fonts/font-patcher {{ item }} -c -q"
+    with_items:
+      - Ocami-0.5.0/Ocami-Regular.ttf
+      - Ocami-0.5.0/Ocami-Bold.ttf
+      - Ocami-0.5.0/Ocami-Italic.ttf
+      - Ocami-0.5.0/Ocami-BoldItalic.ttf
+    tags: Ocami
+
+  - name: create ttc
+    shell: cd work && \
+           unitettc64 Ocami.ttc Ocami-{Regular,Bold,Italic,BoldItalic}.ttf && \
+           mv Ocami.ttc ../../Ocami/ \
+           executable=/bin/bash
+    tags: Ocami
+
+  - shell: rm -fr work && mkdir work
+    tags: Ocami
+
+########################################################
 # Ricty
 ########################################################
   - name: Unarchive Migu1M

@@ -23,6 +23,7 @@ PowerLine、NERDのパッチを当てるとフォント名が"for powerline"や"
 |Myrica|inconsolata|源真ゴシック(源ノ角ゴシック)|1:2|第四まで|OFL|
 |MyricaM|inconsolata|Mgen+(M+フォント、源ノ角ゴシック)|1:2|第四まで|OFL|
 |NasuM|Source Code Pro|源真ゴシック(源ノ角ゴシック)|1:2|第四まで|Apache|
+|Ocami|IBM Plex Mono|源ノ角ゴシック|1:2|第四まで|OFL|
 |Ricty|inconsolata|Migu 1M(M+フォント、IPAゴシック)|1:2|第四まで|OFL,IPA|
 |Ricty Diminished|inconsolata|Circle M+ 1m(M+フォント)|1:2|第二の一部まで|OFL|
 |Ricty Diminished with FiraCode|inconsolata|Circle M+ 1m(M+フォント)|1:2|第二の一部まで|OFL?|
@@ -188,6 +189,29 @@ fontforge -script font-patcher ~/fonts/NasuM/src/NasuFont20141215/NasuM-Bold-201
 unitettc64 NasuM.ttc NasuM-{Regular,Bold}.ttf
 mv NasuM.ttc ~/fonts/NasuM/
 ```
+
+## Ocami
+バージョン0.5.0
+レギュラー、ボールド、オブリーク、ボールドオブリークはttcにて一つのフォントにしてます。
+
+https://github.com/lugia-kun/Ocami
+
+### ビルド手順
+
+```bash
+cd ~/fonts/Ocami/src
+unzip -o Ocami-0.5.0.zip
+cd ~/nerd-fonts/
+git checkout .
+patch -p1 < ~/fonts/tools/font-patcher.diff
+fontforge -script font-patcher ../fonts/Ocami/src/Ocami-0.5.0/Ocami-Regular.ttf
+fontforge -script font-patcher ../fonts/Ocami/src/Ocami-0.5.0/Ocami-Bold.ttf
+fontforge -script font-patcher ../fonts/Ocami/src/Ocami-0.5.0/Ocami-Oblique.ttf
+fontforge -script font-patcher ../fonts/Ocami/src/Ocami-0.5.0/Ocami-BoldOblique.ttf
+unitettc64 Ocami.ttc Ocami-{Regular,Bold,Oblique,BoldOblique}.ttf
+mv Ocami.ttc ../fonts/Ocami/
+```
+
 ## Ricty
 バージョン4.1.1。空白文字はRicty Diminishedと同様の可視化。
 レギュラー、ボールド、オブリーク、ボールドオブリークはttcにて一つのフォントにしてます。
@@ -342,8 +366,6 @@ fontforge -script font-patcher ~/fonts/Utatane/src/Utatane_v1.0.7/Utatane-Regula
 fontforge -script font-patcher ~/fonts/Utatane/src/Utatane_v1.0.7/Utatane-Bold.ttf -c
 unitettc64 Utatane.ttc Utatane-{Regular,Bold}.ttf
 mv Utatane.ttc ~/fonts/Utatane/
-```
-
 ```
 
 ## VLGothic

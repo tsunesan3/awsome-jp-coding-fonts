@@ -1,8 +1,8 @@
 diff --git a/font-patcher b/font-patcher
-index d14729d3..357104d7 100755
+index 95a9634b..9bc5e200 100755
 --- a/font-patcher
 +++ b/font-patcher
-@@ -127,6 +127,12 @@ if args.single:
+@@ -151,6 +151,12 @@ if args.single:
      verboseAdditionalFontNameSuffix += " Mono"
  
  sourceFont = fontforge.open(args.font)
@@ -13,9 +13,9 @@ index d14729d3..357104d7 100755
 +        new_sfnt_names_list.append(x)
 +sourceFont.sfnt_names = new_sfnt_names_list
  
- # basically split the font name around the dash "-" to get the fontname and the style (e.g. Bold)
- # this does not seem very reliable so only use the style here as a fallback if the font does not
-@@ -154,7 +160,7 @@ except IndexError:
+ # let's deal with ligatures (mostly for monospaced fonts)
+ if args.configfile and config.read(args.configfile):
+@@ -195,7 +201,7 @@ except IndexError:
      subFamily = fallbackStyle
  
  # some fonts have inaccurate 'SubFamily', if it is Regular let us trust the filename more:
@@ -24,7 +24,7 @@ index d14729d3..357104d7 100755
      subFamily = fallbackStyle
  
  if args.windows:
-@@ -196,12 +202,25 @@ make_sure_path_exists(args.outputdir)
+@@ -237,12 +243,29 @@ make_sure_path_exists(args.outputdir)
  
  # comply with SIL Open Font License (OFL)
  reservedFontNameReplacements = {
@@ -33,15 +33,19 @@ index d14729d3..357104d7 100755
 +    'NerdFont': '',
 +    'Complete': '',
 +    'MyricaMM' : 'MyricaM',
-+    ' Monospace' : '-Book',
-+    'VL' : 'VLGothic',
++    ' Monospace'     : '-Book',
++    'VL'      : 'VLGothic',
 +    'VLGothicGothic' : 'VLGothic',
-+    'VLGothicRegular' : 'VLGothic',
-+    'RobotoJ Mono' : 'RobotoJ',
-+    'RobotoJ-' : 'RobotoJ',
-+    'migu' : 'Migu1M',
-+    ' Bold' : '-Bold',
-+    ' Regular' : '-Regular',
++    'VLGothicRegular': 'VLGothic',
++    'RobotoJ Mono'   : 'RobotoJ',
++    #'RobotoJ-': 'RobotoJ',
++    'migu'    : 'Migu1M',
++    ' Bold'   : '-Bold',
++    ' Regular': '-Regular',
++    'RictyOblique': 'Ricty-Oblique',
++    'RictyDiscordOblique': 'RictyDiscord-Oblique',
++    'Ricty Diminished Oblique': 'RictyDiminished-Oblique',
++    'RictyDiminishedDiscordOblique': 'RictyDiminishedDiscord-Oblique',
 +    'regular' : 'Regular',
      'source'  : 'sauce',
      'Source'  : 'Sauce',
@@ -49,6 +53,6 @@ index d14729d3..357104d7 100755
      'Hermit'  : 'Hurmit',
 -    'fira'    : 'fura',
 -    'Fira'    : 'Fura',
-     'hack'    : 'knack',
-     'Hack'    : 'Knack',
      'hasklig' : 'hasklug',
+     'Hasklig' : 'Hasklug',
+     'Share'   : 'Shure',

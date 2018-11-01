@@ -1,0 +1,521 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+  - name: install fontforge and etc
+    apt: name={{ item }} state=present cache_valid_time=1
+    become: yes
+    with_items:
+      - fontforge=1:20170731~dfsg-1
+      - python-fontforge=1:20170731~dfsg-1
+      - python-configparser
+      - rpm
+      - fonttools
+      - make
+      - python-pip
+      - python-fonttools
+    tags: base
+
+  - name: install python modules
+    pip: name={{ item }} state=present
+    become: yes
+    with_items:
+      - 3to2
+    tags: base
+
+  - file: path=work state=directory
+    tags: base
+
+  - name: checkout nerd font
+    git: 
+      repo: 'https://github.com/ryanoasis/nerd-fonts.git'
+      dest: ../nerd-fonts/
+      force: yes
+      version: v2.0.0
+    tags: base
+
+  - name: Unarchive ttc
+    unarchive:
+      src: ../tools/unitettc.zip
+      dest: work/
+      creates: /usr/local/bin/unitettc64
+    register: unitettc
+    tags: base
+
+  - name: copy unitettc64
+    copy:
+      src: work/unitettc/unitettc64
+      dest: /usr/local/bin/
+      mode: 0755
+    when: unitettc is changed
+    tags: base
+
+  - name: delete unitettc temp dir
+    file: path=work/unitettc state=absent
+    tags: base
+
+########################################################
+# Cica
+########################################################
+  - name: Cica
+    unarchive: src=../Cica/src/Cica-v4.1.1.zip dest=work/
+    tags: Cica
+
+  - name: Cica - create ttc
+    shell: /usr/local/bin/unitettc64 Cica.ttc Cica-{Regular,Bold,RegularItalic,BoldItalic}.ttf
+    args:
+      chdir: "{{ item }}"
+      executable: /bin/bash
+      creates: "{{ item }}/Cica.ttc"
+    with_items:
+      - work
+      - work/noemoji
+    tags: Cica
+
+  - name: Cica - create noemoji dir
+    file: path=../Cica/noemoji state=directory
+    tags: Cica
+
+  - name: Cica - copy
+    copy: src="work/{{ item }}" dest="../Cica/{{ item }}"
+    with_items:
+      - Cica.ttc
+      - noemoji/Cica.ttc
+    tags: Cica
+
+  - shell: rm -fr work && mkdir work
+    tags: Cica
+
+########################################################
+# CicaV3
+########################################################
+  - name: CicaV3
+    unarchive:
+      src: ../CicaV3/src/Cica-v3.0.0.zip
+      dest: work/
+    tags: CicaV3
+
+  - name: CicaV3 - create ttc
+    shell: /usr/local/bin/unitettc64 Cica.ttc Cica-{Regular,Bold,RegularItalic,BoldItalic}.ttf
+    args:
+      chdir: "{{ item }}"
+      executable: /bin/bash
+      creates: "{{ item }}/Cica.ttc"
+    with_items:
+      - work
+      - work/noemoji
+    tags: CicaV3
+
+  - name: CicaV3 - create noemoji dir
+    file: path=../CicaV3/noemoji state=directory
+    tags: CicaV3
+
+  - name: CicaV3 - copy
+    copy: src='work/{{ item }}' dest='../CicaV3/{{ item }}'
+    with_items:
+      - Cica.ttc
+      - noemoji/Cica.ttc
+    tags: CicaV3
+
+  - shell: rm -fr work && mkdir work
+    tags: CicaV3
+
+########################################################
+# CodeM
+########################################################
+  - name: Unarchive Migu1M
+    unarchive:
+      src: ../Migu1M/src/migu-1m-20150712.zip
+      dest: work/
+    tags: CodeM
+
+  - name: copy migu
+    copy:
+      src: "{{ item }}"
+      dest: work/
+    with_items:
+      - work/migu-1m-20150712/migu-1m-regular.ttf
+      - work/migu-1m-20150712/migu-1m-bold.ttf
+      - ../CodeM/src/SourceCodePro-Bold.ttf 
+      - ../CodeM/src/SourceCodePro-Regular.ttf 
+      - ../CodeM/src/generate_CodeM.pe
+    tags: CodeM
+
+  - name: path codeM
+    shell: cd work && fontforge -script generate_CodeM.pe
+    tags: CodeM
+
+  - name: checkout nerd font
+    shell: git checkout -f . chdir=../nerd-fonts
+    tags: CodeM
+
+  - name: patch to nerd font
+    patch: src=../tools/font-patcher.diff basedir=../nerd-fonts/ strip=1
+    tags: CodeM
+
+  - name: CodeM - patch nerd font
+    shell: "cd work && fontforge -script ../../nerd-fonts/font-patcher {{ item }} -c -q"
+    with_items:
+      - CodeM-Regular-Expanded.ttf
+      - CodeM-Bold-Expanded.ttf
+      - CodeM-Regular-Wide.ttf
+      - CodeM-Bold-Wide.ttf
+      - CodeM-Regular.ttf
+      - CodeM-Bold.ttf
+    tags: CodeM
+ 
+  - name: create ttc
+    shell: cd work && unitettc64 {{ item }}.ttc {{ item }}-{Regular,Bold}.ttf && mv {{ item }}.ttc ../../CodeM/ executable=/bin/bash
+    with_items:
+      - CodeM
+      - CodeMWide
+      - CodeMExpanded
+    tags: CodeM
+
+  - shell: rm -fr work && mkdir work
+    tags: CodeM
+
+########################################################
+# Migu 1M
+########################################################
+  - name: Unarchive Migu1M
+    unarchive: src=../Migu1M/src/migu-1m-20150712.zip dest=work
+    tags: Migu1M
+
+  - name: copy migu
+    copy: src="{{ item }}" dest=work
+    with_items:
+      - work/migu-1m-20150712/migu-1m-regular.ttf
+      - work/migu-1m-20150712/migu-1m-bold.ttf
+    tags: Migu1M
+
+  - name: checkout nerd font
+    shell: git checkout -f . chdir=../nerd-fonts
+    tags: Migu1M
+
+  - name: patch to nerd font
+    patch: src=../tools/font-patcher.diff basedir=../nerd-fonts/ strip=1
+    tags: Migu1M
+
+  - name: patch nerd font
+    shell: "cd work && fontforge -script ../../nerd-fonts/font-patcher {{ item }} -c -q"
+    with_items:
+      - migu-1m-regular.ttf
+      - migu-1m-bold.ttf
+    tags: Migu1M
+
+  - name: create ttc
+    shell: cd work && unitettc64 Migu1M.ttc Migu1M-{Regular,Bold}.ttf && mv Migu1M.ttc ../../Migu1M/ executable=/bin/bash
+    tags: Migu1M
+
+  - shell: rm -fr work && mkdir work
+    tags: Migu1M
+
+########################################################
+# Myrica
+########################################################
+  - name: Unarchive Myrica
+    unarchive: src=../Myrica/src/Myrica.zip dest=work
+    tags: Myrica
+
+  - name: checkout nerd font
+    shell: git checkout -f . chdir=../nerd-fonts
+    tags: Myrica
+
+  - name: patch to nerd font
+    patch: src=../tools/font-patcher.diff basedir=../nerd-fonts/ strip=1
+    tags: Myrica
+
+  - name: patch nerd font
+    shell: "cd work && \
+            unitettc64 Myrica*.TTC && \
+            fontforge -script ../../nerd-fonts/font-patcher Myrica001.ttf -c -q"
+    tags: Myrica
+
+  - name: copy font
+    copy: src=work/Myrica-Book.ttf dest=../Myrica/Myrica.ttf
+    tags: Myrica
+
+  - shell: rm -fr work && mkdir work
+    tags: Myrica
+
+########################################################
+# MyricaM
+########################################################
+  - name: Unarchive MyricaM
+    unarchive: src=../MyricaM/src/MyricaM.zip dest=work
+    tags: MyricaM
+
+  - name: checkout nerd font
+    shell: git checkout -f . chdir=../nerd-fonts
+    tags: MyricaM
+
+  - name: patch to nerd font
+    patch: src=../tools/font-patcher-myricamm.diff basedir=../nerd-fonts/ strip=1
+    tags: MyricaM
+
+  - name: patch nerd font
+    shell: "cd work && \
+            unitettc64 Myrica*.TTC && \
+            fontforge -script ../../nerd-fonts/font-patcher MyricaM001.ttf -c -q"
+    tags: MyricaM
+
+  - name: copy font
+    copy: src=work/MyricaM-Book.ttf dest=../MyricaM/MyricaM.ttf
+    tags: MyricaM
+
+  - shell: rm -fr work && mkdir work
+    tags: MyricaM
+
+########################################################
+# NasuM
+########################################################
+  - name: Unarchive NasuM
+    unarchive: src=../NasuM/src/NasuFont-20141215.zip dest=work
+    tags: NasuM
+
+  - name: checkout nerd font
+    shell: git checkout -f . chdir=../nerd-fonts
+    tags: NasuM
+
+  - name: patch to nerd font
+    patch: src=../tools/font-patcher.diff basedir=../nerd-fonts/ strip=1
+    tags: NasuM
+
+  - name: patch nerd font
+    shell: "cd work && fontforge -script ../../nerd-fonts/font-patcher {{ item }} -c -q"
+    with_items:
+      - NasuFont20141215/NasuM-Regular-20141215.ttf
+      - NasuFont20141215/NasuM-Bold-20141215.ttf
+    tags: NasuM
+
+  - name: create ttc
+    shell: "cd work && \
+            unitettc64 NasuM.ttc NasuM-{Regular,Bold}.ttf && \
+            mv NasuM.ttc ../../NasuM/ executable=/bin/bash"
+    tags: NasuM
+
+  - shell: rm -fr work && mkdir work
+    tags: NasuM
+
+########################################################
+# Ricty
+########################################################
+  - name: Unarchive Migu1M
+    unarchive: src=../Migu1M/src/migu-1m-20150712.zip dest=work
+    tags: Ricty
+
+  - name: copy migu
+    copy: src="{{ item }}" dest=work
+    with_items:
+      - work/migu-1m-20150712/migu-1m-regular.ttf
+      - work/migu-1m-20150712/migu-1m-bold.ttf
+      - ../Ricty/src/Inconsolata-Regular.ttf
+      - ../Ricty/src/Inconsolata-Bold.ttf
+    tags: Ricty
+
+  - name: copy Ricty
+    shell: cd work && \
+           sed -e 's/zenkaku_space_glyph="0u${OPTARG}"/zenkaku_space_glyph=""/' ../../Ricty/src/ricty_generator.sh > tmp.sh && \
+           /bin/bash tmp.sh -Z XXXX Inconsolata-{Regular,Bold}.ttf migu-1m-{regular,bold}.ttf \
+           executable=/bin/bash
+    tags: Ricty
+
+  - name: checkout nerd font
+    shell: git checkout -f . chdir=../nerd-fonts
+    tags: Ricty
+
+  - name: patch to nerd font
+    patch: src=../tools/font-patcher.diff basedir=../nerd-fonts/ strip=1
+    tags: Ricty
+
+  - name: patch nerd font
+    shell: "cd work && fontforge -script ../../nerd-fonts/font-patcher {{ item }} -c -q"
+    with_items:
+      - Ricty-Regular.ttf
+      - Ricty-Bold.ttf
+      - Ricty-Oblique.ttf
+      - Ricty-BoldOblique.ttf
+      - RictyDiscord-Regular.ttf
+      - RictyDiscord-Bold.ttf
+      - RictyDiscord-Oblique.ttf
+      - RictyDiscord-BoldOblique.ttf
+    tags: Ricty
+
+  - name: decrease space wide
+    shell: cd work && \
+      ttx -ft 'OS/2' {{ item }}f && \
+      sed -i 's@<xAvgCharWidth value=".*"/>@<xAvgCharWidth value="500"/>@' {{ item }}x && \
+      ttx -fm {{ item }}{f,x} executable=/bin/bash
+    with_items:
+      - Ricty-Regular.tt
+      - Ricty-Bold.tt
+      - Ricty-Oblique.tt
+      - Ricty-BoldOblique.tt
+      - RictyDiscord-Regular.tt
+      - RictyDiscord-Bold.tt
+      - RictyDiscord-Oblique.tt
+      - RictyDiscord-BoldOblique.tt
+    tags: Ricty
+
+  - name: create ttc
+    shell: cd work && \
+           unitettc64 {{ item }}.ttc {{ item }}-{Regular,Bold,Oblique,BoldOblique}.ttf && \
+           mv {{ item }}.ttc ../../Ricty/ \
+           executable=/bin/bash
+    with_items:
+      - Ricty
+      - RictyDiscord
+    tags: Ricty
+
+  - shell: rm -fr work && mkdir work
+    tags: Ricty
+
+########################################################
+# RictyDiminished
+########################################################
+  - name: Unarchive RictyDiminished
+    unarchive: src=../RictyDiminished/src/ricty_diminished-4.1.1.zip dest=work
+    tags: RictyDiminished
+
+  - name: checkout nerd font
+    shell: git checkout -f . chdir=../nerd-fonts
+    tags: RictyDiminished
+
+  - name: patch to nerd font
+    patch: src=../tools/font-patcher.diff basedir=../nerd-fonts/ strip=1
+    tags: RictyDiminished
+
+  - name: patch nerd font
+    shell: "cd work && fontforge -script ../../nerd-fonts/font-patcher {{ item }} -c -q"
+    with_items:
+      - RictyDiminished-Regular.ttf
+      - RictyDiminished-Bold.ttf
+      - RictyDiminished-Oblique.ttf
+      - RictyDiminished-BoldOblique.ttf
+      - RictyDiminishedDiscord-Regular.ttf
+      - RictyDiminishedDiscord-Bold.ttf
+      - RictyDiminishedDiscord-Oblique.ttf
+      - RictyDiminishedDiscord-BoldOblique.ttf
+    tags: RictyDiminished
+
+  - name: create ttc
+    shell: cd work && \
+           unitettc64 {{ item }}.ttc {{ item }}-{Regular,Bold,Oblique,BoldOblique}.ttf && \
+           mv {{ item }}.ttc ../../RictyDiminished/ \
+           executable=/bin/bash
+    with_items:
+      - RictyDiminished
+      - RictyDiminishedDiscord
+    tags: RictyDiminished
+
+  - shell: rm -fr work && mkdir work
+    tags: RictyDiminished
+
+########################################################
+# RictyDiminished-with-FiraCode
+########################################################
+  - name: Unarchive RictyDiminished and FiraCode
+    unarchive: src=../RictyDiminished-with-FiraCode/src/{{ item }} dest=work
+    with_items:
+      - FiraCode-e68b88dcf28dee72b5bc6c412cbe1b4eb773d29d.zip
+      - RictyDiminished-with-FiraCode-14156dbd23ddb74d7e3611c2a63190a63fbecd38.zip
+      - ../../RictyDiminished/src/ricty_diminished-4.1.1.zip
+    tags: RictyDiminished-with-FiraCode
+
+  - name: copy fonts
+    shell: cp -rf work/Ricty*/* work/ && \
+           mv -f work/FiraCode-*/* work/FiraCode/ && \
+           mv -f work/Ricty*ttf work/RictyDiminished/ && \
+           cd work && \
+           make \
+           executable=/bin/bash
+    tags: RictyDiminished-with-FiraCode
+
+  - name: checkout nerd font
+    shell: git checkout -f . chdir=../nerd-fonts
+    tags: RictyDiminished-with-FiraCode
+
+  - name: patch to nerd font
+    patch: src=../tools/font-patcher.diff basedir=../nerd-fonts/ strip=1
+    tags: RictyDiminished-with-FiraCode
+
+  - name: patch nerd font
+    shell: "cd work && fontforge -script ../../nerd-fonts/font-patcher {{ item }} -c -q"
+    with_items:
+      - RictyDiminished-with-FiraCode-Regular.ttf
+      - RictyDiminished-with-FiraCode-Bold.ttf
+      - RictyDiminishedDiscord-with-FiraCode-Regular.ttf 
+      - RictyDiminishedDiscord-with-FiraCode-Bold.ttf
+    tags: RictyDiminished-with-FiraCode
+
+  - name: create ttc
+    shell: cd work && \
+           unitettc64 {{ item }}WithFiraCode.ttc {{ item }}withFiraCode-{Regular,Bold}.ttf && \
+           mv {{ item }}WithFiraCode.ttc ../../RictyDiminished-with-FiraCode/ \
+           executable=/bin/bash
+    with_items:
+      - RictyDiminished
+      - RictyDiminishedDiscord
+    tags: RictyDiminished-with-FiraCode
+
+  - shell: rm -fr work && mkdir work
+    tags: RictyDiminished-with-FiraCode
+
+########################################################
+# RobotoJ
+########################################################
+  - name: Unarchive RobotoJ
+    shell: tar -zxf ../RobotoJ/src/RobotoJMono_20161105.tar.gz -C work
+    tags: RobotoJ
+    #unarchive: src=../RobotoJ/src/RobotoJMono_20161105.tar.gz dest=work
+
+  - name: checkout nerd font
+    shell: git checkout -f . chdir=../nerd-fonts
+    tags: RictyDiminished
+
+  - name: patch to nerd font
+    patch: src=../tools/font-patcher.diff basedir=../nerd-fonts/ strip=1
+    tags: RictyDiminished
+
+  - name: patch nerd font
+    shell: "cd work && fontforge -script ../../nerd-fonts/font-patcher {{ item }} -c -q"
+    with_items:
+      - RobotoJMono/TTF/RobotoJ-Mono-Regular.ttf
+      - RobotoJMono/TTF/RobotoJ-Mono-Bold.ttf
+    tags: RobotoJ
+
+  - name: create ttc
+    shell: cd work && \
+           unitettc64 RobotoJ.ttc RobotoJ-{Regular,Bold}.ttf && \
+           mv RobotoJ.ttc ../../RobotoJ/ \
+           executable=/bin/bash
+    tags: RobotoJ
+
+########################################################
+# VLGothic
+########################################################
+  - name: Unarchive VLGothic
+    unarchive: src=../VLGothic/src/VLGothic-20141206.zip dest=work
+    tags: VLGothic
+
+  - name: checkout nerd font
+    shell: git checkout -f . chdir=../nerd-fonts
+    tags: VLGothic
+
+  - name: patch to nerd font
+    patch: src=../tools/font-patcher.diff basedir=../nerd-fonts/ strip=1
+    tags: VLGothic
+
+  - name: patch nerd font
+    shell: "cd work && fontforge -script ../../nerd-fonts/font-patcher {{ item }} -c -q"
+    with_items:
+      - VLGothic/VL-Gothic-Regular.ttf
+    tags: VLGothic
+
+  - name: move fonts
+    shell: mv work/VLGothic-Regular.ttf ../VLGothic/VLGothic.ttf
+    tags: VLGothic
+
+  - shell: rm -fr work && mkdir work
+    tags: VLGothic

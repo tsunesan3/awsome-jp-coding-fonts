@@ -34,7 +34,7 @@ PowerLine、NERDのパッチを当てるとフォント名が"for powerline"や"
 
 * ubuntu desktop: 17.10
 * fontforge: 20170921
-* NERD Fonts: https://github.com/ryanoasis/nerd-fonts/tree/1.2.0
+* NERD Fonts: https://github.com/ryanoasis/nerd-fonts/tree/2.0.0
 * UniteTTC http://yozvox.web.fc2.com/556E697465545443.html
 
 ```bash
@@ -42,7 +42,7 @@ sudo apt install python-fontforge fontforge git
 cd
 git clone https://github.com/ryanoasis/nerd-fonts.git
 cd nerd-fonts
-git checkout -f v1.2.0
+git checkout -f v2.0.0
 
 cd
 wget http://yozvox.web.fc2.com/unitettc.zip
@@ -267,7 +267,7 @@ mv RictyDiminished*.ttc ../fonts/RictyDiminished/
 ```
 
 ## RictyDiminished with FiraCode
-バージョン0.0.1。==などをFira Codeの合字にしたもの。
+リビジョンID 14156dbd2。==などをFira Codeの合字にしたもの。
 
 PowerLineの文字の挿入は最初からされているはずですが、当方の環境では文字が崩れたことと、
 Nerd Font等のために改めてパッチを当ててます。
@@ -277,7 +277,7 @@ http://slides.com/hakatashi/ricty-fira-code#/16
 ### 作成環境
 
 * RictyDiminished: 4.1.1
-* Fira Code e68b88d
+* Fira Code e68b88dcf2(1.204 +α)
 
 ### ビルド手順
 

@@ -26,8 +26,9 @@ PowerLine、NERDのパッチを当てるとフォント名が"for powerline"や"
 |Ocami|IBM Plex Mono|源ノ角ゴシック|1:2|第四まで|OFL|
 |Ricty|inconsolata|Migu 1M(M+フォント、IPAゴシック)|1:2|第四まで|OFL,IPA|
 |Ricty Diminished|inconsolata|Circle M+ 1m(M+フォント)|1:2|第二の一部まで|OFL|
-|Ricty Diminished with FiraCode|inconsolata|Circle M+ 1m(M+フォント)|1:2|第二の一部まで|OFL?|
+|Ricty Diminished with FiraCode|inconsolata 合字|Circle M+ 1m(M+フォント)|1:2|第二の一部まで|OFL?|
 |RobotoJ|Roboto Mono|モトヤLシーダ3等幅、源真ゴシック、Migu、M+フォント|1:2|第四まで|Apache|
+|Sarasa 更紗ゴシック|Iosevka 合字|源ノ角ゴシック|1:2|第四まで|OFL|
 |Source Han Code JP|Source Code Pro|源ノ角ゴシック|2:3|第四まで|OFL|
 |Utatane|Ubuntu Mono|やさしさゴシック（M+フォント、IPAゴシック）|1:2|第四まで|M+,IPA|
 |VLゴシック|M+フォント|M+フォント、さざなみ|1:2|第二の一部まで|M+,BSD|
@@ -345,6 +346,31 @@ fontforge -script font-patcher ~/fonts/RobotoJ/src/RobotoJMono/TTF/RobotoJ-Mono-
 fontforge -script font-patcher ~/fonts/RobotoJ/src/RobotoJMono/TTF/RobotoJ-Mono-Bold.ttf -c
 unitettc64 RobotoJ.ttc RobotoJ-{Regular,Bold}.ttf
 mv RobotoJ.ttc ~/fonts/RobotoJ/
+```
+
+## Sarasa 更紗ゴシック
+2017年から開発が始まった新星。
+
+バージョン0.6.0。日本語のみ抽出して、合字ありのフォントを選択して、ttcに統合。
+
+### ビルド手順
+
+```bash
+cd ~/fonts/Sarasa/src
+p7zip -k -f -d sarasa-gothic-ttf-0.6.0.7z
+cd ~/nerd-fonts/
+git checkout .
+patch -p1 < ~/fonts/tools/font-patcher.diff
+fontforge -script font-patcher ~/fonts/RobotoJ/src/sarasa-mono-j-regular.ttf -c
+fontforge -script font-patcher ~/fonts/RobotoJ/src/sarasa-mono-j-bold.ttf -c
+ls Sarasa-*.ttf|sed 's/ttf/tt/' > font.list
+while read font; do
+  ttx -ft 'OS/2' ${font}f
+  sed -i 's@<xAvgCharWidth value=".*"/>@<xAvgCharWidth value="500"/>@' ${font}x
+  ttx -fm ${font}{f,x}
+done < font.list
+unitettc64 Sarasa.ttc Sarasa-{Regular,Bold}.ttf
+mv Sarasa.ttc ~/fonts/Sarasa/
 ```
 
 ## Utatane

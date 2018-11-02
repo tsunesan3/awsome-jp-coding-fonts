@@ -1,5 +1,5 @@
 diff --git a/font-patcher b/font-patcher
-index 95a9634b..9bc5e200 100755
+index 95a9634b..31bcfcc2 100755
 --- a/font-patcher
 +++ b/font-patcher
 @@ -151,6 +151,12 @@ if args.single:
@@ -24,7 +24,7 @@ index 95a9634b..9bc5e200 100755
      subFamily = fallbackStyle
  
  if args.windows:
-@@ -237,12 +243,29 @@ make_sure_path_exists(args.outputdir)
+@@ -237,12 +243,32 @@ make_sure_path_exists(args.outputdir)
  
  # comply with SIL Open Font License (OFL)
  reservedFontNameReplacements = {
@@ -42,10 +42,13 @@ index 95a9634b..9bc5e200 100755
 +    'migu'    : 'Migu1M',
 +    ' Bold'   : '-Bold',
 +    ' Regular': '-Regular',
++    ' Italic':  '-Italic',
 +    'RictyOblique': 'Ricty-Oblique',
 +    'RictyDiscordOblique': 'RictyDiscord-Oblique',
 +    'Ricty Diminished Oblique': 'RictyDiminished-Oblique',
 +    'RictyDiminishedDiscordOblique': 'RictyDiminishedDiscord-Oblique',
++    'SarasaMonoJ': 'Sarasa',
++    'SarasaMonoJItalic': 'Sarasa-Italic',
 +    'regular' : 'Regular',
      'source'  : 'sauce',
      'Source'  : 'Sauce',

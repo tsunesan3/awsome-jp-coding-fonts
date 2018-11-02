@@ -531,6 +531,48 @@
     tags: RobotoJ
 
 ########################################################
+# Sarasa
+########################################################
+  - name: Unarchive Sarasa
+    shell: cd work && p7zip -f -k -d ../../Sarasa/src/sarasa-gothic-ttf-0.6.0.7z
+    tags: Sarasa
+
+  - name: checkout nerd font
+    shell: git checkout -f . chdir=../nerd-fonts
+    tags: Sarasa
+
+  - name: patch to nerd font
+    patch: src=../tools/font-patcher.diff basedir=../nerd-fonts/ strip=1
+    tags: Sarasa
+
+  - name: patch nerd font
+    shell: "cd work && fontforge -script ../../nerd-fonts/font-patcher {{ item }} -c -q"
+    with_items:
+      - sarasa-mono-j-regular.ttf
+      - sarasa-mono-j-bold.ttf
+    tags: Sarasa
+
+  - name: decrease space wide
+    shell: cd work && \
+      ttx -ft 'OS/2' {{ item }}f && \
+      sed -i 's@<xAvgCharWidth value=".*"/>@<xAvgCharWidth value="500"/>@' {{ item }}x && \
+      ttx -fm {{ item }}{f,x} executable=/bin/bash
+    with_items:
+      - Sarasa-Regular.tt
+      - Sarasa-Bold.tt
+    tags: Sarasa
+
+  - name: create ttc
+    shell: cd work && \
+           unitettc64 Sarasa.ttc Sarasa-{Regular,Bold}.ttf && \
+           mv Sarasa.ttc ../../Sarasa/ \
+           executable=/bin/bash
+    tags: Sarasa
+
+  - shell: rm -fr work && mkdir work
+    tags: Sarasa
+
+########################################################
 # Utatane
 ########################################################
   - name: Unarchive Utatane
@@ -605,6 +647,7 @@
       - Myrica/Myrica.ttf
       - MyricaM/MyricaM.ttf
       - NasuM/NasuM.ttc
+      - Ocami/Ocami.ttc
       - Ricty/Ricty.ttc
       - Ricty/RictyDiscord.ttc
       - RictyDiminished/RictyDiminished.ttc
@@ -612,6 +655,7 @@
       - RictyDiminished-with-FiraCode/RictyDiminishedWithFiraCode.ttc
       - RictyDiminished-with-FiraCode/RictyDiminishedDiscordWithFiraCode.ttc
       - RobotoJ/RobotoJ.ttc
+      - Sarasa/Sarasa.ttc
       - Utatane/Utatane.ttc
       - VLGothic/VLGothic.ttf
     tags: release
